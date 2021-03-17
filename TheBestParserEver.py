@@ -18,26 +18,15 @@ GREEK_PE = ['Δράμας', 'Έβρου', 'Καβάλας', 'Θάσου', 'Ξά�
 
 
 # function that returns a list of dates starting from the last it reads from the txt
-def list_with_dates():
+def list_with_dates(year=2020, month=9, day=14):
 
-    # if no other date is present use this as the default
-    year, month, day = 2020, 9, 14
-    try:
-        # checks txt file for days already parsed
-        x = pd.read_excel(r"C:\Users\ARIS\Desktop\a.xlsx", index_col=0)
-
-        # get the last date index from excel in str format and gives it as start reference to datetime
-        last_date = x.index[-1].split('-')
-        year, month, day = int(last_date[-1]), int(last_date[-2]), int(last_date[-3])
-    except FileNotFoundError:
-        pass
     # starting date
     d1 = datetime.date(year, month, day)
-    d1 = datetime.date(2020, 11, 16)
-    # stopping date
-    d2 = datetime.date(2021, 3, 7)
 
-    # d2 = datetime.date.today()
+    # stopping date
+    # d2 = datetime.date(2021, 3, 7)
+
+    d2 = datetime.date.today()
     diff = d2 - d1
     dates_until_today = []
 
@@ -176,7 +165,20 @@ def parser(dateInUse):
 
 if __name__ == '__main__':
     catalog = {}
-    dateRange = list_with_dates()
+
+    # set the date range for parsing
+    try:
+        # read the excel file to get last date parsed
+        old_df = pd.read_excel(r"C:\Users\ARIS\Desktop\official.xlsx", index_col=0)
+
+        # get the last date index from excel in str format and gives it as start reference to datetime
+        last_date = old_df.index[-1].split('-')
+        year, month, day = int(last_date[-1]), int(last_date[-2]), int(last_date[-3])
+
+        dateRange = list_with_dates(year, month, day)
+    except FileNotFoundError:
+        dateRange = list_with_dates()
+
     # parser('02-03-2021')
     for date in dateRange:
         try:
@@ -187,5 +189,7 @@ if __name__ == '__main__':
     # pprint.pprint(catalog)
 
     df = pd.DataFrame(dict(catalog))
+    result = pd.concat([old_df, df])
     print(df)
-    df.to_excel(r"C:\Users\ARIS\Desktop\test.xlsx")
+
+    result.to_excel(r"C:\Users\ARIS\Desktop\test.xlsx")
