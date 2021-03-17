@@ -5,14 +5,25 @@ import pprint
 import unicodedata
 import datetime
 
+junk = ['Βορείου Τομέα Αθηνών', 'Δυτικού Τομέα Αθηνών', 'Κεντρικού Τομέα Αθηνών',
+        'Νοτίου Τομέα Αθηνών', 'Πειραιώς', 'Νήσων', 'Ανατολικής Αττικής','Δυτικής Αττικής',]
+
+GREEK_PE = ['Δράμας', 'Έβρου', 'Καβάλας', 'Θάσου', 'Ξάνθης', 'Ροδόπης', 'Ημαθίας', 'Θεσσαλονίκης', 'Κιλκίς', 'Πέλλας',
+            'Πιερίας', 'Σερρών', 'Χαλκιδικής', 'Γρεβενών', 'Καστοριάς', 'Κοζάνης', 'Φλώρινας', 'Άρτας', 'Θεσπρωτίας',
+            'Ιωαννίνων', 'Πρέβεζας', 'Καρδίτσας', 'Λάρισας', 'Μαγνησίας', 'Σποράδων', 'Τρικάλων', 'Ζακύνθου',
+            'Κέρκυρας', 'Κεφαλληνίας', 'Ιθάκης', 'Λευκάδας', 'Αιτωλοακαρνανίας', 'Αχαΐας', 'Ηλείας', 'Βοιωτίας',
+            'Εύβοιας', 'Ευρυτανίας', 'Φθιώτιδας', 'Φωκίδας', 'Αργολίδας', 'Αρκαδίας', 'Κορινθίας', 'Λακωνίας', 'Μεσσηνίας', 'Λέσβου', 'Ικαρίας',
+            'Λήμνου', 'Σάμου', 'Χίου', 'Άνδρου', 'Μήλου', 'Θήρας', 'Κέας-Κύθνου', 'Μυκόνου', 'Νάξου', 'Σύρου', 'Τήνου',
+            'Πάρου', 'Καλύμνου', 'Καρπάθου', 'Κω', 'Ρόδου', 'Ηρακλείου', 'Λασιθίου', 'Ρεθύμνης', 'Χανίων', 'Αττικής']
+
 
 # function that returns a list of dates starting from the last it reads from the txt
 def list_with_dates():
 
     # if no other date is present use this as the default
-    year, month, day = 2020, 11, 16
+    year, month, day = 2020, 9, 14
     try:
-        # checks excel file for days already parsed
+        # checks txt file for days already parsed
         x = pd.read_excel(r"C:\Users\ARIS\Desktop\a.xlsx", index_col=0)
 
         # get the last date index from excel in str format and gives it as start reference to datetime
@@ -22,9 +33,9 @@ def list_with_dates():
         pass
     # starting date
     d1 = datetime.date(year, month, day)
-
+    d1 = datetime.date(2020, 11, 16)
     # stopping date
-    d2 = datetime.date(2020, 11, 27)
+    d2 = datetime.date(2021, 3, 7)
 
     # d2 = datetime.date.today()
     diff = d2 - d1
@@ -46,20 +57,10 @@ def remove_accents(text):
     return ''.join(c for c in unicodedata.normalize('NFD', text) if unicodedata.category(c) != 'Mn')
 
 
-GREEK_PE = ['Δράμας', 'Έβρου', 'Καβάλας', 'Θάσου', 'Ξάνθης', 'Ροδόπης', 'Ημαθίας', 'Θεσσαλονίκης', 'Κιλκίς', 'Πέλλας',
-            'Πιερίας', 'Σερρών', 'Χαλκιδικής', 'Γρεβενών', 'Καστοριάς', 'Κοζάνης', 'Φλώρινας', 'Άρτας', 'Θεσπρωτίας',
-            'Ιωαννίνων', 'Πρέβεζας', 'Καρδίτσας', 'Λάρισας', 'Μαγνησίας', 'Σποράδων', 'Τρικάλων', 'Ζακύνθου',
-            'Κέρκυρας', 'Κεφαλληνίας', 'Ιθάκης', 'Λευκάδας', 'Αιτωλοακαρνανίας', 'Αχαΐας', 'Ηλείας', 'Βοιωτίας',
-            'Εύβοιας', 'Ευρυτανίας', 'Φθιώτιδας', 'Φωκίδας', 'Βορείου Τομέα Αθηνών', 'Δυτικού Τομέα Αθηνών',
-            'Κεντρικού Τομέα Αθηνών', 'Νοτίου Τομέα Αθηνών', 'Πειραιώς', 'Νήσων', 'Ανατολικής Αττικής',
-            'Δυτικής Αττικής', 'Αργολίδας', 'Αρκαδίας', 'Κορινθίας', 'Λακωνίας', 'Μεσσηνίας', 'Λέσβου', 'Ικαρίας',
-            'Λήμνου', 'Σάμου', 'Χίου', 'Άνδρου', 'Μήλου', 'Θήρας', 'Κέας-Κύθνου', 'Μυκόνου', 'Νάξου', 'Σύρου', 'Τήνου',
-            'Πάρου', 'Καλύμνου', 'Καρπάθου', 'Κω', 'Ρόδου', 'Ηρακλείου', 'Λασιθίου', 'Ρεθύμνης', 'Χανίων', 'Αττικής']
-
-
 def parser(dateInUse):
     link = f'http://www.odigostoupoliti.eu/koronoios-krousmata-simera-{dateInUse}-stin-ellada/'
 
+    # get html data
     page = requests.get(link)
 
     # check if status code is good ( 200 )
@@ -108,15 +109,61 @@ def parser(dateInUse):
         caseList = caseList.split('$')
         print('This was used')
 
+    # from every string get a corresponding number if a name from GREEK_PE is in that string
     for string in caseList:
         for name in GREEK_PE:
+            flag = False
+            # remove the accents from the greek words and make all lower case
+            filtered_name = remove_accents(name).lower()
+            string = remove_accents(string).lower()
+
+            # if name ends with 'ς' then remove the ς
+            if filtered_name[-1] == 'ς':
+                # slicing the string is faster than string.replace()
+                filtered_name = filtered_name[:-1]
+
+            # if name ends with 'ου' then remove the υ
+            if filtered_name[-1] == 'υ':
+                filtered_name = filtered_name[:-1]
+
             # if name in string == True then this string has useful info and we need to filter it properly
-            if remove_accents(name).lower().replace('ς', '') in remove_accents(string).lower():
-                # sometimes it can pick up a string that passed all the requirments but doesn't contain a number so it raises ValueError
+            if filtered_name in string:
+                flag = True
+            # cover special cases of some names
+            elif name == 'Ιωαννίνων':
+                if 'ιωαννινα' in string:
+                    flag = True
+            elif name == 'Σερρών':
+                if 'σερρε' in string:
+                    flag = True
+            elif name == 'Χανίων':
+                if 'χανια' in string:
+                    flag = True
+            elif name == 'Τρικάλων':
+                if 'τρικαλα' in string:
+                    flag = True
+            elif name == 'Σποράδων':
+                if 'σποραδες' in string:
+                    flag = True
+            elif name == 'Ρεθύμνης':
+                if 'ρεθυμνο' in string:
+                    flag = True
+
+            # if one of the previous checks is true then get all numbers from current string
+            if flag:
+
+                ''' sometimes it can pick up a string that passed all the requirments but doesn't 
+                contain a number so it raises ValueError '''
                 try:
-                    cases = int(''.join([x for x in string.split() if x.isnumeric()]))
+                    cases = int(''.join([x for x in string if x.isnumeric()]))
                 except ValueError:
                     continue
+                if name == 'Αττικής' and 'Αττικής' in catalog.keys():
+
+                    if dateInUse in catalog['Αττικής'].keys():
+
+                        continue
+
                 # create catalog
                 # if district exists
                 if name in catalog.keys():
@@ -130,13 +177,13 @@ def parser(dateInUse):
 if __name__ == '__main__':
     catalog = {}
     dateRange = list_with_dates()
+    # parser('02-03-2021')
     for date in dateRange:
         try:
             parser(date)
             print(date)
         except:
             pass
-
     # pprint.pprint(catalog)
 
     df = pd.DataFrame(dict(catalog))
