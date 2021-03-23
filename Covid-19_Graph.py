@@ -6,7 +6,8 @@ from dash.dependencies import Input, Output
 import plotly.graph_objects as go
 
 # read data from excel and make DataFrame
-df = pd.read_excel(r"C:\Users\ARIS\Desktop\test.xlsx", index_col=0)
+df = pd.read_excel(r"C:\Users\ARIS\Desktop\official.xlsx", index_col=0)
+
 
 app = dash.Dash(__name__)
 app.layout = html.Div([
@@ -25,7 +26,7 @@ app.layout = html.Div([
         ],
 
         # initiate the graph with a default choice
-        value=['Θεσσαλονίκης'],
+        value=['Αττικής', 'Θεσσαλονίκης'],
         multi=True
 
     ),
@@ -56,7 +57,8 @@ def update_output(user_choice):
     # make a list of the choices the user return
     periferies = list(user_choice)
     for onoma in periferies:
-        trace1 = go.Scatter(x=df.index, y=df[onoma], name=onoma, mode='lines')
+        # go.Scatter(...) if you want graph to be a line
+        trace1 = go.Bar(x=df.index, y=df[onoma], name=onoma, hovertemplate='Date %{x}<br>Cases %{y}')
         trace_list.append(trace1)
 
     # set your desired layout of the graph
@@ -74,7 +76,7 @@ def update_output(user_choice):
 
     )
 
-    fig = go.Figure(data=trace_list, layout=layout, )
+    fig = go.Figure(data=trace_list, layout=layout )
     return container, fig
 
 
