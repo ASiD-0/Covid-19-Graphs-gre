@@ -23,11 +23,11 @@ def read_data_from_database(database, engine):
 
 if __name__ == '__main__':
     # create sqlalchemy engine with postgres database URL
-    DATABASE_URL = 'postgresql://cemlwhkqzhydbc:ce0242f300bb5ca5788c806b76f1119170b10323114b25b6bbccb03630b71a27@ec2-54-74-35-87.eu-west-1.compute.amazonaws.com:5432/da06s7pv1tg2em'
+    DATABASE_URL = 'postgresql://' # your database url
     engine = create_engine(DATABASE_URL, echo=False)
 
     # run to update database with your local data
-    write_data_to_database(local_data_path=r"C:\Users\ARIS\Desktop\official.xlsx", database='Covid-19-Cases', engine=engine)
+    write_data_to_database(local_data_path="official.xlsx", database='Covid-19-Cases', engine=engine)
 
     # run to get what the database has stored
     # read_data_from_database(database='Covid-19-Cases', engine=engine)
