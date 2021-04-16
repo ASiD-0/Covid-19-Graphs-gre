@@ -1,4 +1,4 @@
 # Covid-19-Graphs-gre
-Covid-19 data parsed and plotted 
+This project parses a webpage for Covid-19 data regarding Covid-19 cases in Greek regions per day. 
 
-This is a project that parses a website for covid-19 data and then plots them
+The date are stored in an excel format and then are being plotted using plolty with dash for the web app implementation.
