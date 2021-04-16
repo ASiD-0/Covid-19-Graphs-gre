@@ -169,7 +169,7 @@ if __name__ == '__main__':
     # set the date range for parsing
     try:
         # read the excel file to get last date parsed
-        old_df = pd.read_excel(r"C:\Users\ARIS\Desktop\official.xlsx", index_col=0)
+        old_df = pd.read_excel("official.xlsx", index_col=0)
 
         # get the last date index from excel in str format and gives it as start reference to datetime
         last_date = old_df.index[-1].split('-')
@@ -192,4 +192,4 @@ if __name__ == '__main__':
     result = pd.concat([old_df, df])
     print(df)
 
-    result.to_excel(r"C:\Users\ARIS\Desktop\official.xlsx")
+    result.to_excel("official.xlsx")
