@@ -6,12 +6,20 @@ from dash.dependencies import Input, Output
 import plotly.graph_objects as go
 
 # read data from excel and make DataFrame
-df = pd.read_excel(r"C:\Users\ARIS\Desktop\official.xlsx", index_col=0)
+df = pd.read_excel("official.xlsx", index_col=0)
 
+# use this to pass index column as dates which makes it able to sort the data by date and fixes 15-01-2021 bug
+# also makes the dates axis more readable
+df.index = pd.to_datetime(df.index, format='%d-%m-%Y')
+
+# sort the data frame
+df.sort_index()
 
 app = dash.Dash(__name__)
+server = app.server
 app.layout = html.Div([
     dcc.Dropdown(
+
         id='dropdown-for-districts',
 
         # options=[
@@ -27,6 +35,7 @@ app.layout = html.Div([
 
         # initiate the graph with a default choice
         value=['Αττικής', 'Θεσσαλονίκης'],
+        placeholder='Παρακαλώ επιλέξτε Π.Ε.',
         multi=True
 
     ),
@@ -44,13 +53,12 @@ app.layout = html.Div([
 )
 def update_output(user_choice):
 
+    container = ''
+
     # if user_choice not empty
     if user_choice:
         container = f'Έχετε επιλέξει τις Π.Ε. {", ".join(user_choice)}.' if len(user_choice) > 1 else f'Έχετε επιλέξει την Π.Ε. {"".join(user_choice)}.'
 
-    # else if user_choice is empty
-    else:
-        container = 'Παρακαλώ επιλέξτε Π.Ε.'
 
     trace_list = []
 
@@ -63,7 +71,7 @@ def update_output(user_choice):
 
     # set your desired layout of the graph
     layout = go.Layout(
-        # template='plotly_white',
+        # template='plotly_dark',
         title='Κρούσματα σε Περιφεριακές Ενότητες ανα την Ελλάδα.',
         # title_x=0.5,  # centers the title
         yaxis=dict(
