@@ -24,7 +24,7 @@ def read_data_from_database(database, engine):
 
 if __name__ == '__main__':
     # create sqlalchemy engine with postgres database URL
-    DATABASE_URL = 'postgresql://'
+    DATABASE_URL = 'postgresql://' # add your database url here
     engine = create_engine(DATABASE_URL, echo=False)
 
     # run to update database with your local data
